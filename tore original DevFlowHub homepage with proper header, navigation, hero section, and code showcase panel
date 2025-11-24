@@ -1,0 +1,10 @@
+[33m8c81636[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mstaging[m[33m)[m Fix useSession destructuring errors - make session handling more defensive
+[33m6ca7106[m Fix session provider - use proper Providers component with SessionProvider
+[33me0d9773[m Restore original homepage - The World's First AI Development OS
+[33m1cb6e60[m Fix layout.tsx imports - use only existing provider components
+[33m9d823a6[m Revert all SEO changes and restore original working homepage
+[33m9519af8[m Remove redirect rules causing infinite redirect loop
+[33m42707e2[m Fix infinite redirect loop in next.config.js redirects
+[33m0bf8b61[m Fix homepage component syntax errors - rewrite with proper structure
+[33m11a315e[m Fix homepage component structure and syntax errors
+[33md8c18fe[m Comprehensive SEO fixes: canonical URLs, structured data, sitemap, robots.txt, and metadata optimization

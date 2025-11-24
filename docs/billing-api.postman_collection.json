@@ -1,0 +1,291 @@
+{
+  "info": {
+    "name": "DevFlowHub Billing API",
+    "description": "Collection of API endpoints for DevFlowHub billing system",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{auth_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "auth_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "user_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "project_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "subscription_item_id",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/signin",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "signin"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Billing",
+      "item": [
+        {
+          "name": "Create Checkout Session",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"plan\": \"pro\",\n  \"projectId\": \"{{project_id}}\",\n  \"coupon\": \"WELCOME20\",\n  \"trialDays\": 14,\n  \"successUrl\": \"{{base_url}}/dashboard?billing=success\",\n  \"cancelUrl\": \"{{base_url}}/dashboard?billing=cancelled\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/billing/create-checkout-session",
+              "host": ["{{base_url}}"],
+              "path": ["api", "billing", "create-checkout-session"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Subscription",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"priceId\": \"price_pro_monthly\",\n  \"trialDays\": 14,\n  \"coupon\": \"WELCOME20\",\n  \"metadata\": {\n    \"source\": \"api\",\n    \"projectId\": \"{{project_id}}\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/billing/create-subscription",
+              "host": ["{{base_url}}"],
+              "path": ["api", "billing", "create-subscription"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Record Usage",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"subscriptionItemId\": \"{{subscription_item_id}}\",\n  \"quantity\": 1000,\n  \"action\": \"ai_tokens\",\n  \"projectId\": \"{{project_id}}\",\n  \"metadata\": {\n    \"model\": \"gpt-4\",\n    \"prompt_length\": 500\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/billing/usage-record",
+              "host": ["{{base_url}}"],
+              "path": ["api", "billing", "usage-record"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Billing Portal URL",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/billing/portal",
+              "host": ["{{base_url}}"],
+              "path": ["api", "billing", "portal"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Customer Billing Info",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/billing/customer",
+              "host": ["{{base_url}}"],
+              "path": ["api", "billing", "customer"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Webhooks",
+      "item": [
+        {
+          "name": "Stripe Webhook",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Stripe-Signature",
+                "value": "t=1234567890,v1=signature_here"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"evt_test_webhook\",\n  \"object\": \"event\",\n  \"api_version\": \"2020-08-27\",\n  \"created\": 1234567890,\n  \"data\": {\n    \"object\": {\n      \"id\": \"cs_test_123\",\n      \"object\": \"checkout.session\",\n      \"amount_total\": 2900,\n      \"currency\": \"usd\",\n      \"customer\": \"cus_test_123\",\n      \"metadata\": {\n        \"userId\": \"{{user_id}}\",\n        \"plan\": \"pro\"\n      },\n      \"payment_status\": \"paid\",\n      \"status\": \"complete\"\n    }\n  },\n  \"livemode\": false,\n  \"pending_webhooks\": 1,\n  \"request\": {\n    \"id\": \"req_test_123\",\n    \"idempotency_key\": null\n  },\n  \"type\": \"checkout.session.completed\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/billing/webhook",
+              "host": ["{{base_url}}"],
+              "path": ["api", "billing", "webhook"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Usage Tracking",
+      "item": [
+        {
+          "name": "Track AI Tokens",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"{{user_id}}\",\n  \"projectId\": \"{{project_id}}\",\n  \"action\": \"ai_tokens\",\n  \"quantity\": 1000,\n  \"metadata\": {\n    \"model\": \"gpt-4\",\n    \"prompt_length\": 500,\n    \"response_length\": 300\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/usage/track",
+              "host": ["{{base_url}}"],
+              "path": ["api", "usage", "track"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Track Preview Time",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"{{user_id}}\",\n  \"projectId\": \"{{project_id}}\",\n  \"action\": \"preview_minutes\",\n  \"quantity\": 30,\n  \"metadata\": {\n    \"preview_type\": \"sandbox\",\n    \"project_size\": \"large\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/usage/track",
+              "host": ["{{base_url}}"],
+              "path": ["api", "usage", "track"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Track Sandbox Run",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"{{user_id}}\",\n  \"projectId\": \"{{project_id}}\",\n  \"action\": \"sandbox_runs\",\n  \"quantity\": 1,\n  \"metadata\": {\n    \"runtime\": \"node\",\n    \"duration_minutes\": 5\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/usage/track",
+              "host": ["{{base_url}}"],
+              "path": ["api", "usage", "track"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Track Deployment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"{{user_id}}\",\n  \"projectId\": \"{{project_id}}\",\n  \"action\": \"deployments\",\n  \"quantity\": 1,\n  \"metadata\": {\n    \"provider\": \"vercel\",\n    \"environment\": \"production\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/usage/track",
+              "host": ["{{base_url}}"],
+              "path": ["api", "usage", "track"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

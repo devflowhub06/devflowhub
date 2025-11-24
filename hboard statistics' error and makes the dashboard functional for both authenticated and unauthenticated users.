@@ -1,0 +1,59 @@
+warning: in the working copy of '.next/app-build-manifest.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.next/build-manifest.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.next/server/app-paths-manifest.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.next/server/server-reference-manifest.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.next/trace', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'package.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/app/api/metrics/route.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/app/api/projects/route.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/app/dashboard/page.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/app/dashboard/projects/[id]/workspace/page.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/app/globals.css', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/app/layout.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/app/page.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/components/billing/PricingPage.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/components/dashboard/OnboardingChecklist.tsx', LF will be replaced by CRLF the next time Git touches it
+.next/app-build-manifest.json
+.next/build-manifest.json
+.next/cache/webpack/client-development/1.pack.gz
+.next/cache/webpack/client-development/2.pack.gz
+.next/cache/webpack/client-development/3.pack.gz
+.next/cache/webpack/client-development/4.pack.gz
+.next/cache/webpack/client-development/5.pack.gz
+.next/cache/webpack/client-development/index.pack.gz
+.next/cache/webpack/client-development/index.pack.gz.old
+.next/cache/webpack/server-development/0.pack.gz
+.next/cache/webpack/server-development/1.pack.gz
+.next/cache/webpack/server-development/2.pack.gz
+.next/cache/webpack/server-development/3.pack.gz
+.next/cache/webpack/server-development/4.pack.gz
+.next/cache/webpack/server-development/5.pack.gz
+.next/cache/webpack/server-development/6.pack.gz
+.next/cache/webpack/server-development/index.pack.gz
+.next/cache/webpack/server-development/index.pack.gz.old
+.next/server/app-paths-manifest.json
+.next/server/middleware-build-manifest.js
+.next/server/server-reference-manifest.js
+.next/server/server-reference-manifest.json
+.next/trace
+next.config.js
+package.json
+src/app/(auth)/login/page.tsx
+src/app/api/metrics/route.ts
+src/app/api/onboarding/route.ts
+src/app/api/projects/route.ts
+src/app/dashboard/ai-macros/page.tsx
+src/app/dashboard/page.tsx
+src/app/dashboard/previews/page.tsx
+src/app/dashboard/projects/[id]/workspace/page.tsx
+src/app/dashboard/projects/page.tsx
+src/app/globals.css
+src/app/layout.tsx
+src/app/page.tsx
+src/components/billing/PricingPage.tsx
+src/components/dashboard/OnboardingChecklist.tsx
+src/components/dashboard/WorkspaceSelector.tsx
+src/lib/authOptions.ts
+src/lib/feature-flags.ts
+src/middleware.ts
+tailwind.config.js

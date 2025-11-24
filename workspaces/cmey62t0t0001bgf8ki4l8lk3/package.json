@@ -1,0 +1,18 @@
+{
+  "name": "devflow-project-cmey62t0t0001bgf8ki4l8lk3",
+  "version": "1.0.0",
+  "description": "DevFlowHub AI-powered project",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "build": "echo \"Build script\"",
+    "test": "echo \"Test script\""
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

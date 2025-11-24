@@ -1,0 +1,931 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id                    String                 @id @default(cuid())
+  name                  String?
+  email                 String                 @unique
+  emailVerified         DateTime?
+  image                 String?
+  password              String?
+  plan                  PlanType               @default(FREE)
+  bio                   String?
+  twoFactorEnabled      Boolean                @default(false)
+  twoFactorSecret       String?
+  // Razorpay payment fields
+  razorpayCustomerId    String?
+  razorpaySubscriptionId String?
+  paymentStatus         PaymentStatus          @default(PENDING)
+  nextBillingDate       DateTime?
+  trialEndsAt           DateTime?
+  createdAt             DateTime               @default(now())
+  updatedAt             DateTime               @updatedAt
+  accounts              Account[]
+  collaborationSessions CollaborationSession[]
+  feedback              Feedback[]
+  projects              Project[]
+  sessions              Session[]
+  componentLibraryEntries ComponentLibraryEntry[]
+  uiGenerationJobs      UIGenerationJob[]
+  usageLogs             UsageLog[]
+  deployments           Deployment[]
+  onboarding            OnboardingProgress?
+  userSettings          UserSettings?
+  integrations          Integration[]
+  apiKeys               ApiKey[]
+  teamMembers           TeamMember[]
+  auditLogs             AuditLog[]
+  billingUsage          BillingUsage[]
+  notifications         Notification[]
+  stripeCustomer        StripeCustomer?
+  subscriptions         Subscription[]
+  invoices              Invoice[]
+  billingEvents         BillingEvent[]
+  razorpayPayments      RazorpayPayment[]
+  razorpaySubscriptions RazorpaySubscription[]
+  razorpayInvoices      RazorpayInvoice[]
+  analyticsEvents       AnalyticsEvent[]
+  analyticsFunnels      AnalyticsFunnel[]
+  aiTokenUsage          AITokenUsage[]
+  templateUsage         TemplateUsage[]
+  aiMacros              AIMacro[]
+  aiMacroRuns           AIMacroRun[]
+  previewEnvironments   PreviewEnvironment[]
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Project {
+  id                    String                 @id @default(cuid())
+  name                  String
+  description           String?
+  type                  String                 // "web","api","mobile","other"
+  language              String
+  framework             String?
+  template              String?                // "blank", "todo", "blog", etc.
+  status                String                 @default("created") // created | scaffolded | editing | previewed | deployed
+  repoPath              String?                // storage path or repo url
+  repoCommit            String?                // initial commit hash
+  complexity            String
+  selectedTool          String?
+  userId                String
+  context               Json?
+  stats                 Json?                  // total fields if needed
+  createdAt             DateTime               @default(now())
+  updatedAt             DateTime               @updatedAt
+  completedAt           DateTime?
+  currentTool           String?
+  totalToolSwitches     Int                    @default(0)
+  timeSavedMinutes      Int                    @default(0)
+  routingAccuracy       Float                  @default(0.0)
+  lastUsedTool          String?
+  activeTool            ToolType               @default(SANDBOX)
+  moduleName            String?                // DevFlowHub module name (editor, sandbox, ui_studio, deployer)
+  provider              String?                // Underlying provider (cursor, replit, v0, bolt)
+  bolt                  BoltIntegration?
+  collaborationSessions CollaborationSession[]
+  cursorWs              CursorWorkspace?
+  deployments           Deployment[]
+  feedback              Feedback[]
+  user                  User                   @relation(fields: [userId], references: [id])
+  activities            ProjectActivity[]
+  backups               ProjectBackup[]
+  assistantBranches     AssistantBranch[]
+  files                 ProjectFile[]
+  runs                  Run[]
+  componentLibraryEntries ComponentLibraryEntry[]
+  uiGenerationJobs      UIGenerationJob[]
+  analyticsEvents       AnalyticsEvent[]
+  analyticsFunnels      AnalyticsFunnel[]
+  aiTokenUsage          AITokenUsage[]
+  templateUsage         TemplateUsage[]
+  aiMacros              AIMacro[]
+  aiMacroRuns           AIMacroRun[]
+  previewEnvironments   PreviewEnvironment[]
+  replit                ReplitIntegration?
+  usageLogs             UsageLog[]
+  v0                    V0Workspace?
+  ragDocuments          RagDocument[]
+  workspaceTokens       WorkspaceToken[]
+  usageRecords          UsageRecord[]
+}
+
+model ReplitIntegration {
+  id        String   @id @default(cuid())
+  projectId String   @unique
+  replId    String?
+  replUrl   String?
+  embedUrl  String?
+  status    String   @default("disconnected")
+  lastError String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  project   Project  @relation(fields: [projectId], references: [id])
+}
+
+model CursorWorkspace {
+  id        String   @id @default(cuid())
+  projectId String   @unique
+  rootPath  String
+  gitRemote String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  project   Project  @relation(fields: [projectId], references: [id])
+}
+
+model V0Workspace {
+  id         String   @id @default(cuid())
+  projectId  String   @unique
+  components Json     @default("[]")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  project    Project  @relation(fields: [projectId], references: [id])
+}
+
+model BoltIntegration {
+  id           String   @id @default(cuid())
+  projectId    String   @unique
+  provider     String   @default("vercel")
+  prodUrl      String?
+  stagingUrl   String?
+  lastDeployId String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  project      Project  @relation(fields: [projectId], references: [id])
+}
+
+model Deployment {
+  id              String   @id @default(cuid())
+  projectId       String
+  branch          String
+  commitHash      String?
+  commitMessage   String?
+  provider        String   @default("vercel") // vercel, netlify, aws, gcp
+  environment     String   // preview, staging, production
+  status          String   @default("pending") // pending, deploying, success, failed, rolled_back
+  url             String?
+  logsUrl         String?
+  buildCommand    String?
+  buildTime       Int?     // in seconds
+  estimatedCost   Float?
+  actualCost      Float?
+  error           String?
+  rolledBackFrom  String?  // ID of deployment this was rolled back from
+  createdBy       String   // userId
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  project         Project  @relation(fields: [projectId], references: [id])
+  user            User     @relation(fields: [createdBy], references: [id])
+  
+  @@index([projectId, environment])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model UsageLog {
+  id         String   @id @default(cuid())
+  projectId  String
+  userId     String
+  tool       ToolType
+  action     String
+  durationMs Int?
+  metadata   Json?
+  createdAt  DateTime @default(now())
+  project    Project  @relation(fields: [projectId], references: [id])
+  user       User     @relation(fields: [userId], references: [id])
+}
+
+model ProjectActivity {
+  id          String   @id @default(cuid())
+  projectId   String
+  type        String
+  description String
+  metadata    Json?
+  createdAt   DateTime @default(now())
+  project     Project  @relation(fields: [projectId], references: [id])
+}
+
+model ProjectFile {
+  id        String   @id @default(cuid())
+  projectId String
+  name      String
+  path      String
+  content   String
+  type      String   @default("file")
+  metadata  Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  project   Project  @relation(fields: [projectId], references: [id])
+
+  @@unique([projectId, path])
+}
+
+model OnboardingProgress {
+  id                    String   @id @default(cuid())
+  userId                String   @unique
+  createdFirstProject   Boolean  @default(false)
+  connectedIntegration  Boolean  @default(false)
+  ranInSandbox          Boolean  @default(false)
+  deployedToStaging     Boolean  @default(false)
+  usedAssistant         Boolean  @default(false)
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  user                  User     @relation(fields: [userId], references: [id])
+}
+
+model Feedback {
+  id          String   @id @default(cuid())
+  projectId   String?
+  userId      String
+  type        String
+  title       String
+  description String
+  priority    String   @default("medium")
+  status      String   @default("open")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  project     Project? @relation(fields: [projectId], references: [id])
+  user        User     @relation(fields: [userId], references: [id])
+}
+
+model CollaborationSession {
+  id          String    @id @default(cuid())
+  projectId   String
+  userId      String
+  sessionType String
+  startTime   DateTime  @default(now())
+  endTime     DateTime?
+  notes       String?
+  createdAt   DateTime  @default(now())
+  project     Project   @relation(fields: [projectId], references: [id])
+  user        User      @relation(fields: [userId], references: [id])
+}
+
+model ProjectBackup {
+  id         String   @id @default(cuid())
+  projectId  String
+  backupData Json
+  createdAt  DateTime @default(now())
+  project    Project  @relation(fields: [projectId], references: [id])
+}
+
+model AssistantBranch {
+  id           String   @id @default(cuid())
+  projectId    String
+  branchName   String
+  status       String   @default("created") // created, pr_created, merged, rejected
+  summary      String
+  rationale    String
+  changesCount Int
+  prUrl        String?
+  snapshotId   String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  project      Project  @relation(fields: [projectId], references: [id])
+}
+
+model Run {
+  id             String    @id @default(cuid())
+  projectId      String
+  branch         String
+  createdBy      String
+  status         String    // starting, building, running, stopped, error, destroyed
+  url            String?
+  env            Json?
+  public         Boolean   @default(false)
+  ttlMinutes     Int       @default(60)
+  startsAt       DateTime?
+  endsAt         DateTime?
+  snapshotId     String?
+  estimatedCost  Float     @default(0.0)
+  actualCost     Float?
+  buildLogs      String?
+  runtimeLogs    String?
+  lastPing       DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  project        Project   @relation(fields: [projectId], references: [id])
+
+  @@index([projectId, status])
+  @@index([createdBy, status])
+}
+
+model ComponentLibraryEntry {
+  id          String    @id @default(cuid())
+  name        String
+  description String?
+  category    String    // button, form, nav, layout, etc.
+  tags        String[]  @default([])
+  code        String    // TSX code
+  props       Json      // PropTypes/TS interface metadata
+  variants    Json      // Variant configurations
+  previewHtml String?   // HTML for preview
+  story       String?   // Storybook story code
+  test        String?   // Jest test code
+  projectId   String?   // null for public components
+  createdBy   String
+  visibility  String    @default("project") // project, private, public
+  version     String    @default("1.0.0")
+  downloads   Int       @default(0)
+  likes       Int       @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  project     Project?  @relation(fields: [projectId], references: [id])
+  creator     User      @relation(fields: [createdBy], references: [id])
+  versions    ComponentVersion[]
+
+  @@index([category, visibility])
+  @@index([createdBy, projectId])
+  @@index([name, category])
+}
+
+model ComponentVersion {
+  id          String    @id @default(cuid())
+  componentId String
+  version     String
+  code        String
+  props       Json
+  variants    Json
+  changelog   String?
+  createdAt   DateTime  @default(now())
+  
+  component   ComponentLibraryEntry @relation(fields: [componentId], references: [id], onDelete: Cascade)
+
+  @@unique([componentId, version])
+}
+
+model UIGenerationJob {
+  id            String    @id @default(cuid())
+  projectId     String
+  userId        String
+  prompt        String
+  status        String    // queued, processing, completed, failed
+  result        Json?     // Generated component data
+  error         String?
+  estimatedCost Float     @default(0.0)
+  actualCost    Float?
+  tokensUsed    Int?
+  processingTime Int?     // milliseconds
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  project       Project   @relation(fields: [projectId], references: [id])
+  user          User      @relation(fields: [userId], references: [id])
+
+  @@index([userId, status])
+  @@index([projectId, status])
+}
+
+model RagDocument {
+  id          String   @id @default(cuid())
+  projectId   String
+  filename    String
+  content     String
+  metadata    Json?    // Additional metadata for RAG
+  vectorId    String?  // Vector store document ID
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId])
+  @@index([filename])
+}
+
+model WorkspaceToken {
+  id        String   @id @default(cuid())
+  projectId String
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([token])
+  @@index([expiresAt])
+}
+
+// Settings Models
+model UserSettings {
+  id                    String   @id @default(cuid())
+  userId                String   @unique
+  defaultWorkspaceModule String  @default("editor") // editor, ui_studio, sandbox, deployer
+  editorTheme           String   @default("vs-dark")
+  editorFontSize        Int      @default(14)
+  editorTabSize         Int      @default(2)
+  editorWordWrap        Boolean  @default(true)
+  preferredLanguage     String   @default("en")
+  timezone              String   @default("UTC")
+  dateFormat            String   @default("YYYY-MM-DD")
+  timeFormat            String   @default("24h")
+  emailNotifications    Boolean  @default(true)
+  inAppNotifications    Boolean  @default(true)
+  pushNotifications     Boolean  @default(false)
+  marketingEmails       Boolean  @default(false)
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  user                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Integration {
+  id              String   @id @default(cuid())
+  userId          String?
+  orgId           String?
+  provider        String   // github, gitlab, vercel, netlify, sandbox_provider
+  providerId      String   // external provider user/org ID
+  displayName     String
+  config          Json     // encrypted OAuth tokens and settings
+  connectionState String   @default("connected") // connected, disconnected, error
+  lastTestedAt    DateTime?
+  errorMessage    String?
+  scopes          String[] @default([])
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  user            User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, provider])
+  @@index([provider, connectionState])
+}
+
+model ApiKey {
+  id          String    @id @default(cuid())
+  userId      String
+  name        String
+  keyHash     String    @unique
+  scope       Json      // permissions array
+  lastUsedAt  DateTime?
+  lastUsedIp  String?
+  revokedAt   DateTime?
+  createdAt   DateTime  @default(now())
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([keyHash])
+}
+
+model Team {
+  id          String        @id @default(cuid())
+  orgId       String        @unique
+  name        String
+  description String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  members     TeamMember[]
+}
+
+model TeamMember {
+  id         String   @id @default(cuid())
+  teamId     String
+  userId     String
+  role       String   @default("editor") // owner, admin, editor, viewer
+  invitedBy  String?
+  invitedAt  DateTime @default(now())
+  acceptedAt DateTime?
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  team       Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  @@unique([teamId, userId])
+  @@index([userId])
+  @@index([teamId])
+}
+
+model AuditLog {
+  id           String   @id @default(cuid())
+  userId       String
+  action       String   // settings_profile_updated, integration_connected, etc.
+  resourceType String?  // user, project, team, etc.
+  resourceId   String?
+  ip           String?
+  userAgent    String?
+  metadata     Json?
+  createdAt    DateTime @default(now())
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, action])
+  @@index([createdAt])
+  @@index([action, resourceType])
+}
+
+model BillingUsage {
+  id            String   @id @default(cuid())
+  userId        String
+  period        String   // YYYY-MM format
+  aiTokensUsed  Int      @default(0)
+  previewMinutes Int     @default(0)
+  sandboxesStarted Int   @default(0)
+  deployments   Int      @default(0)
+  storageBytes  BigInt   @default(0)
+  cost          Float    @default(0.0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, period])
+  @@index([period])
+}
+
+// Stripe Billing Models
+model StripeCustomer {
+  id                String   @id @default(cuid())
+  userId            String   @unique
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  stripeCustomerId  String   @unique
+  email             String
+  name              String?
+  phone             String?
+  address           Json?    // Stripe address object
+  taxId             String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model Subscription {
+  id                    String   @id @default(cuid())
+  userId                String
+  user                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  stripeSubscriptionId  String   @unique
+  stripePriceId         String
+  status                String   // active, canceled, incomplete, incomplete_expired, past_due, trialing, unpaid
+  currentPeriodStart    DateTime
+  currentPeriodEnd      DateTime
+  trialStart            DateTime?
+  trialEnd              DateTime?
+  cancelAtPeriodEnd     Boolean  @default(false)
+  canceledAt            DateTime?
+  plan                  String   // free, pro, enterprise
+  metadata              Json?    // Additional Stripe metadata
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  usageRecords          UsageRecord[]
+}
+
+model UsageRecord {
+  id                    String   @id @default(cuid())
+  subscriptionId        String
+  subscription          Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+  stripeSubscriptionItemId String
+  quantity              Int
+  timestamp             DateTime
+  projectId             String?
+  project               Project? @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  action                String   // ai_tokens, preview_minutes, sandbox_runs, deployments
+  metadata              Json?    // Additional usage metadata
+  createdAt             DateTime @default(now())
+}
+
+model Invoice {
+  id                String   @id @default(cuid())
+  userId            String
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  stripeInvoiceId   String   @unique
+  amountDue         Int      // Amount in cents
+  amountPaid        Int      // Amount in cents
+  currency          String   @default("usd")
+  status            String   // draft, open, paid, void, uncollectible
+  paid              Boolean  @default(false)
+  hostedInvoiceUrl  String?
+  invoicePdf        String?
+  periodStart       DateTime
+  periodEnd         DateTime
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model Coupon {
+  id                String   @id @default(cuid())
+  stripeCouponId    String   @unique
+  name              String
+  percentOff        Int?     // Percentage discount
+  amountOff         Int?     // Fixed amount discount in cents
+  currency          String?
+  duration          String   // once, repeating, forever
+  durationInMonths  Int?
+  maxRedemptions    Int?
+  redeemBy          DateTime?
+  valid             Boolean  @default(true)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model BillingEvent {
+  id                String   @id @default(cuid())
+  userId            String?
+  user              User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  eventType         String   // checkout_completed, subscription_created, subscription_updated, subscription_canceled, invoice_paid, trial_expired
+  stripeEventId     String?  @unique
+  metadata          Json?    // Event-specific data
+  processed         Boolean  @default(false)
+  createdAt         DateTime @default(now())
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String   // deploy_status, project_share, integration_error, billing_event
+  title     String
+  message   String
+  read      Boolean  @default(false)
+  metadata  Json?
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, read])
+  @@index([type, createdAt])
+}
+
+enum ToolType {
+  EDITOR
+  SANDBOX
+  UI_STUDIO
+  DEPLOYER
+}
+
+enum PlanType {
+  FREE
+  PRO
+  ENTERPRISE
+}
+
+enum PaymentStatus {
+  PENDING
+  ACTIVE
+  FAILED
+  CANCELLED
+  EXPIRED
+}
+
+// Razorpay Integration Models
+model RazorpayPayment {
+  id                String   @id @default(cuid())
+  razorpayOrderId   String   @unique
+  razorpayPaymentId String?  @unique
+  razorpaySignature String?
+  userId            String
+  plan              PlanType
+  amount            Int      // Amount in paise
+  currency          String   @default("INR")
+  status            String   @default("created") // created, attempted, paid, failed
+  metadata          Json?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([razorpayOrderId])
+}
+
+model RazorpaySubscription {
+  id                    String        @id @default(cuid())
+  razorpaySubscriptionId String       @unique
+  userId                String
+  plan                  PlanType
+  status                String        @default("created") // created, authenticated, active, paused, halted, cancelled, completed
+  currentStart          DateTime?
+  currentEnd            DateTime?
+  endedAt               DateTime?
+  quantity              Int           @default(1)
+  notes                 Json?
+  chargeAt              DateTime?
+  startAt               DateTime?
+  endAt                 DateTime?
+  authAttempts          Int           @default(0)
+  totalCount            Int           @default(12)
+  paidCount             Int           @default(0)
+  customerNotify        Boolean       @default(true)
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+  user                  User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  invoices              RazorpayInvoice[]
+
+  @@index([userId])
+  @@index([razorpaySubscriptionId])
+}
+
+model RazorpayInvoice {
+  id                    String             @id @default(cuid())
+  razorpayInvoiceId     String             @unique
+  subscriptionId        String
+  userId                String
+  invoiceNumber         String
+  status                String             @default("draft") // draft, issued, paid, cancelled, expired, voided
+  amount                Int                // Amount in paise
+  currency              String             @default("INR")
+  description           String?
+  customerName          String?
+  customerEmail         String?
+  customerContact       String?
+  billingStart          DateTime?
+  billingEnd            DateTime?
+  issuedAt              DateTime?
+  paidAt                DateTime?
+  dueDate               DateTime?
+  receipt               String?
+  notes                 Json?
+  createdAt             DateTime           @default(now())
+  updatedAt             DateTime           @updatedAt
+  subscription          RazorpaySubscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+  user                  User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([subscriptionId])
+  @@index([razorpayInvoiceId])
+}
+
+// Analytics Events
+model AnalyticsEvent {
+  id            String   @id @default(cuid())
+  eventName     String   // project_created, preview_started, deploy_succeeded, etc.
+  eventType     String   // user_action, system_event, ai_event
+  userId        String?
+  projectId     String?
+  sessionId     String?
+  metadata      Json?    // Additional event data
+  userAgent     String?
+  ipAddress     String?
+  country       String?
+  city          String?
+  timestamp     DateTime @default(now())
+  createdAt     DateTime @default(now())
+  
+  user          User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  project       Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([projectId])
+  @@index([eventName])
+  @@index([eventType])
+  @@index([timestamp])
+  @@index([sessionId])
+}
+
+// Analytics Funnel Steps
+model AnalyticsFunnel {
+  id            String   @id @default(cuid())
+  userId        String
+  projectId     String?
+  step          String   // create, preview, deploy
+  stepOrder     Int      // 1, 2, 3
+  completedAt   DateTime @default(now())
+  metadata      Json?
+  
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  project       Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([projectId])
+  @@index([step])
+  @@index([completedAt])
+}
+
+// AI Token Usage Tracking
+model AITokenUsage {
+  id            String   @id @default(cuid())
+  userId        String
+  projectId     String?
+  model         String   // gpt-4, gpt-3.5-turbo, etc.
+  promptTokens  Int
+  completionTokens Int
+  totalTokens   Int
+  cost          Float    // Cost in USD
+  endpoint      String   // /api/ai/suggest, /api/assistant, etc.
+  successful    Boolean  @default(true)
+  errorMessage  String?
+  timestamp     DateTime @default(now())
+  createdAt     DateTime @default(now())
+  
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  project       Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([projectId])
+  @@index([model])
+  @@index([timestamp])
+}
+
+// Template Usage Analytics
+model TemplateUsage {
+  id            String   @id @default(cuid())
+  templateId    String
+  userId        String
+  projectId     String?
+  language      String?
+  framework     String?
+  timestamp     DateTime @default(now())
+  
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  project       Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([templateId])
+  @@index([userId])
+  @@index([timestamp])
+}
+
+// AI Macros
+model AIMacro {
+  id            String   @id @default(cuid())
+  name          String
+  description   String?
+  userId        String
+  projectId     String?
+  steps         Json     // Array of macro steps
+  gitTrigger    Json?    // Git event triggers (push, pr, etc.)
+  lastRun       DateTime?
+  runCount      Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  project       Project? @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  runs          AIMacroRun[]
+
+  @@index([userId])
+  @@index([projectId])
+}
+
+// AI Macro Runs
+model AIMacroRun {
+  id            String   @id @default(cuid())
+  macroId       String
+  userId        String
+  projectId     String?
+  status        String   // pending, running, completed, failed
+  outcome       String?  // success, failure, partial
+  tokenUsage    Int      @default(0)
+  cost          Float    @default(0)
+  logs          Json?
+  errorMessage  String?
+  startedAt     DateTime @default(now())
+  completedAt   DateTime?
+  
+  macro         AIMacro  @relation(fields: [macroId], references: [id], onDelete: Cascade)
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  project       Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([macroId])
+  @@index([userId])
+  @@index([status])
+  @@index([startedAt])
+}
+
+// Preview Environments
+model PreviewEnvironment {
+  id            String   @id @default(cuid())
+  projectId     String
+  userId        String
+  branchName    String
+  prNumber      Int?
+  url           String
+  status        String   // provisioning, active, inactive, failed
+  logs          Json?
+  estimatedCost Float    @default(0)
+  actualCost    Float    @default(0)
+  createdAt     DateTime @default(now())
+  destroyedAt   DateTime?
+  lastAccessedAt DateTime?
+  
+  project       Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([projectId])
+  @@index([userId])
+  @@index([branchName])
+  @@index([status])
+}

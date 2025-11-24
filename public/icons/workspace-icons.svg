@@ -1,0 +1,31 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Editor Icon -->
+  <g id="editor">
+    <rect x="2" y="2" width="8" height="8" rx="2" fill="#09c1ff"/>
+    <path d="M4 4h4v4H4V4z" fill="white"/>
+  </g>
+  
+  <!-- Sandbox Icon -->
+  <g id="sandbox" transform="translate(12, 0)">
+    <rect x="2" y="2" width="8" height="8" rx="2" fill="#22c55e"/>
+    <path d="M4 4h4v4H4V4z" fill="white"/>
+  </g>
+  
+  <!-- UI Studio Icon -->
+  <g id="ui-studio" transform="translate(0, 12)">
+    <rect x="2" y="2" width="8" height="8" rx="2" fill="#8b57ff"/>
+    <path d="M4 4h4v4H4V4z" fill="white"/>
+  </g>
+  
+  <!-- Deployer Icon -->
+  <g id="deployer" transform="translate(12, 12)">
+    <rect x="2" y="2" width="8" height="8" rx="2" fill="#f97316"/>
+    <path d="M4 4h4v4H4V4z" fill="white"/>
+  </g>
+  
+  <!-- AI Assistant Icon -->
+  <g id="ai-assistant" transform="translate(6, 6)">
+    <circle cx="6" cy="6" r="6" fill="#6366f1"/>
+    <path d="M4 6h4M6 4v4" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+  </g>
+</svg>

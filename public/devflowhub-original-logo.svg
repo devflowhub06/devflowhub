@@ -1,0 +1,70 @@
+<svg viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Orange gradient for the main logo -->
+    <radialGradient id="orangeGradient" cx="50%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#FF6B35" />
+      <stop offset="50%" stop-color="#FF8C42" />
+      <stop offset="100%" stop-color="#FFA500" />
+    </radialGradient>
+    
+    <!-- Text gradient -->
+    <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FF6B35" />
+      <stop offset="50%" stop-color="#FF8C42" />
+      <stop offset="100%" stop-color="#FFA500" />
+    </linearGradient>
+    
+    <!-- Glow effect -->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <!-- Emboss effect for text -->
+    <filter id="emboss" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="1" result="coloredBlur"/>
+      <feOffset dx="1" dy="1" result="offset"/>
+      <feFlood flood-color="#000000" flood-opacity="0.3"/>
+      <feComposite in="SourceGraphic" operator="in"/>
+    </filter>
+  </defs>
+  
+  <!-- Main logo icon - stylized D/P with swirling segments -->
+  <g transform="translate(20, 10)">
+    <!-- Outer swirling segments -->
+    <path d="M 30 15 Q 45 10 50 25 Q 45 40 30 35 Q 15 30 20 15 Q 25 5 30 15" 
+          fill="url(#orangeGradient)" 
+          filter="url(#glow)"
+          opacity="0.9"/>
+    
+    <!-- Inner segments for depth -->
+    <path d="M 30 18 Q 42 15 45 25 Q 42 35 30 32 Q 18 29 22 25 Q 26 18 30 18" 
+          fill="url(#orangeGradient)" 
+          opacity="0.8"/>
+    
+    <!-- Center highlight -->
+    <circle cx="30" cy="25" r="8" fill="#FFA500" opacity="0.9"/>
+    <circle cx="30" cy="25" r="4" fill="#FFFFFF" opacity="0.7"/>
+    
+    <!-- Additional swirling elements -->
+    <path d="M 25 20 Q 35 18 38 25 Q 35 32 25 30" 
+          fill="url(#orangeGradient)" 
+          opacity="0.6"/>
+  </g>
+  
+  <!-- Brand name text -->
+  <text x="70" y="35" 
+        font-family="Arial, sans-serif" 
+        font-size="24" 
+        font-weight="600" 
+        fill="url(#textGradient)" 
+        filter="url(#emboss)">
+    devflowhub
+  </text>
+  
+  <!-- Subtle background glow -->
+  <circle cx="50" cy="35" r="25" fill="url(#orangeGradient)" opacity="0.1"/>
+</svg>

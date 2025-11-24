@@ -1,0 +1,321 @@
+/* DevFlowHub Editor Styles */
+
+/* Monaco Editor Customization */
+.monaco-editor {
+  --vscode-editor-background: #1e1e1e;
+  --vscode-editor-foreground: #d4d4d4;
+  --vscode-editor-selectionBackground: #264f78;
+  --vscode-editor-selectionHighlightBackground: #add6ff26;
+  --vscode-editor-lineHighlightBackground: #2d2d30;
+  --vscode-editorCursor-foreground: #aeafad;
+  --vscode-editorWhitespace-foreground: #3e4042;
+  --vscode-editorIndentGuide-background: #404040;
+  --vscode-editorIndentGuide-activeBackground: #707070;
+  --vscode-editorLineNumber-foreground: #858585;
+  --vscode-editorLineNumber-activeForeground: #c6c6c6;
+  --vscode-editorGutter-background: #1e1e1e;
+  --vscode-editor-foldBackground: #202d33;
+  --vscode-editorBracketMatch-background: #0064001a;
+  --vscode-editorBracketMatch-border: #888888;
+  --vscode-editorBracketHighlight-foreground1: #ffd700;
+  --vscode-editorBracketHighlight-foreground2: #da70d6;
+  --vscode-editorBracketHighlight-foreground3: #87ceeb;
+  --vscode-editorBracketHighlight-foreground4: #ffd700;
+  --vscode-editorBracketHighlight-foreground5: #da70d6;
+  --vscode-editorBracketHighlight-foreground6: #87ceeb;
+  --vscode-editorBracketHighlight-unexpectedBracket-foreground: #ff0000;
+  --vscode-editorUnnecessaryCode-opacity: #000000aa;
+  --vscode-editorGhostText-foreground: #6a9955;
+  --vscode-editorOverviewRuler-border: #7c7c7c;
+  --vscode-editorOverviewRuler-findMatchForeground: #d18616;
+  --vscode-editorOverviewRuler-currentMatchForeground: #515c6a;
+  --vscode-editorOverviewRuler-selectionHighlightForeground: #2a2d2e;
+  --vscode-editorOverviewRuler-wordHighlightForeground: #2a2d2e;
+  --vscode-editorOverviewRuler-bracketMatchForeground: #a0a0a0;
+  --vscode-editorOverviewRuler-errorForeground: #f48771;
+  --vscode-editorOverviewRuler-warningForeground: #cca700;
+  --vscode-editorOverviewRuler-infoForeground: #3794ff;
+  --vscode-editorError-foreground: #f48771;
+  --vscode-editorError-border: #f48771;
+  --vscode-editorWarning-foreground: #cca700;
+  --vscode-editorWarning-border: #cca700;
+  --vscode-editorInfo-foreground: #3794ff;
+  --vscode-editorInfo-border: #3794ff;
+  --vscode-editorHint-foreground: #eeeeeeb3;
+  --vscode-editorHint-border: #eeeeeeb3;
+  --vscode-editorUnnecessaryCode-border: #eeeeeeb3;
+  --vscode-editorBracketMatch-background: #0064001a;
+  --vscode-editorBracketMatch-border: #888888;
+  --vscode-editorBracketHighlight-foreground1: #ffd700;
+  --vscode-editorBracketHighlight-foreground2: #da70d6;
+  --vscode-editorBracketHighlight-foreground3: #87ceeb;
+  --vscode-editorBracketHighlight-foreground4: #ffd700;
+  --vscode-editorBracketHighlight-foreground5: #da70d6;
+  --vscode-editorBracketHighlight-foreground6: #87ceeb;
+  --vscode-editorBracketHighlight-unexpectedBracket-foreground: #ff0000;
+  --vscode-editorUnnecessaryCode-opacity: #000000aa;
+  --vscode-editorGhostText-foreground: #6a9955;
+  --vscode-editorOverviewRuler-border: #7c7c7c;
+  --vscode-editorOverviewRuler-findMatchForeground: #d18616;
+  --vscode-editorOverviewRuler-currentMatchForeground: #515c6a;
+  --vscode-editorOverviewRuler-selectionHighlightForeground: #2a2d2e;
+  --vscode-editorOverviewRuler-wordHighlightForeground: #2a2d2e;
+  --vscode-editorOverviewRuler-bracketMatchForeground: #a0a0a0;
+  --vscode-editorOverviewRuler-errorForeground: #f48771;
+  --vscode-editorOverviewRuler-warningForeground: #cca700;
+  --vscode-editorOverviewRuler-infoForeground: #3794ff;
+  --vscode-editorError-foreground: #f48771;
+  --vscode-editorError-border: #f48771;
+  --vscode-editorWarning-foreground: #cca700;
+  --vscode-editorWarning-border: #cca700;
+  --vscode-editorInfo-foreground: #3794ff;
+  --vscode-editorInfo-border: #3794ff;
+  --vscode-editorHint-foreground: #eeeeeeb3;
+  --vscode-editorHint-border: #eeeeeeb3;
+  --vscode-editorUnnecessaryCode-border: #eeeeeeb3;
+}
+
+/* Terminal Customization */
+.xterm {
+  --xterm-foreground: #d4d4d4;
+  --xterm-background: #1e1e1e;
+  --xterm-cursor: #aeafad;
+  --xterm-selection: #264f78;
+}
+
+.xterm .xterm-viewport {
+  background-color: #1e1e1e;
+}
+
+.xterm .xterm-screen {
+  background-color: #1e1e1e;
+}
+
+/* File Tree Customization */
+.file-tree {
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+  font-size: 13px;
+}
+
+.file-tree-item {
+  padding: 2px 8px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.file-tree-item:hover {
+  background-color: #2d2d30;
+}
+
+.file-tree-item.selected {
+  background-color: #264f78;
+  color: #ffffff;
+}
+
+.file-tree-item.dirty::after {
+  content: '●';
+  color: #ffa500;
+  margin-left: 4px;
+}
+
+/* Command Palette Customization */
+.command-palette {
+  backdrop-filter: blur(8px);
+  background: rgba(30, 30, 30, 0.95);
+  border: 1px solid #3e4042;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.command-palette-item {
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.command-palette-item:hover {
+  background-color: #2d2d30;
+}
+
+.command-palette-item.selected {
+  background-color: #264f78;
+}
+
+/* Preview Changes Modal Customization */
+.preview-modal {
+  backdrop-filter: blur(8px);
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.preview-modal-content {
+  background: #1e1e1e;
+  border: 1px solid #3e4042;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.diff-viewer {
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.diff-line {
+  padding: 2px 8px;
+  margin: 0;
+}
+
+.diff-line.added {
+  background-color: #0d4f3c;
+  color: #4ec9b0;
+}
+
+.diff-line.removed {
+  background-color: #4f0d0d;
+  color: #f48771;
+}
+
+.diff-line.context {
+  background-color: #1e1e1e;
+  color: #d4d4d4;
+}
+
+/* AI Assistant Lightbulb Customization */
+.assistant-lightbulb {
+  position: absolute;
+  z-index: 10;
+  background: #1e1e1e;
+  border: 1px solid #3e4042;
+  border-radius: 6px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(8px);
+}
+
+.assistant-suggestion {
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.assistant-suggestion:hover {
+  background-color: #2d2d30;
+}
+
+.assistant-suggestion.selected {
+  background-color: #264f78;
+}
+
+/* Git Status Customization */
+.git-status {
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+  font-size: 12px;
+}
+
+.git-branch {
+  color: #4ec9b0;
+  font-weight: 600;
+}
+
+.git-commit {
+  color: #d4d4d4;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+}
+
+.git-changes {
+  color: #ffa500;
+}
+
+/* Tab Customization */
+.editor-tab {
+  padding: 8px 16px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  background: transparent;
+}
+
+.editor-tab:hover {
+  background-color: #2d2d30;
+}
+
+.editor-tab.active {
+  border-bottom-color: #3794ff;
+  background-color: #2d2d30;
+  color: #3794ff;
+}
+
+/* Scrollbar Customization */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1e1e1e;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3e4042;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #4e5052;
+}
+
+/* Loading States */
+.loading-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .file-tree {
+    width: 200px;
+  }
+  
+  .command-palette {
+    margin: 16px;
+    max-width: calc(100vw - 32px);
+  }
+}
+
+/* Dark Theme Enhancements */
+.dark-theme {
+  color-scheme: dark;
+}
+
+.dark-theme * {
+  scrollbar-color: #3e4042 #1e1e1e;
+}
+
+/* Focus States */
+.focus-visible {
+  outline: 2px solid #3794ff;
+  outline-offset: 2px;
+}
+
+/* Animation Classes */
+.fade-in {
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.slide-in {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from { transform: translateY(-10px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
