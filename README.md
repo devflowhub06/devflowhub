@@ -1,246 +1,525 @@
-# DevFlowHub - Unified AI Development Workspace
+# 🚀 DevFlowHub - The World's First AI Development OS
 
-DevFlowHub is a comprehensive development platform that integrates multiple development tools into a single, unified workspace. Built with Next.js 14, TypeScript, and TailwindCSS, it provides a seamless development experience with AI-powered assistance.
+**A unified, AI-powered development workspace that brings together code editing, sandboxing, UI generation, and deployment in one seamless platform.**
 
-## 🚀 Features
+[![Next.js](https://img.shields.io/badge/Next.js-14-black)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.8-blue)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/React-18.3-61DAFB)](https://reactjs.org/)
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
-### 🔧 Integrated Development Tools
+---
 
-#### **Replit Workspace**
-- Create and manage Replit projects directly from DevFlowHub
-- Real-time embed integration with fallback support
-- Language-specific project templates
-- Project metadata and status tracking
+## 📋 Table of Contents
 
-#### **Cursor IDE Workspace**
-- Full-featured Monaco editor with TypeScript support
-- Real file system integration with project files
-- Integrated terminal with real command execution
-- AI-powered code suggestions and edits
-- Git integration (init, commit, push)
-- Autosave functionality with usage tracking
+- [Overview](#overview)
+- [Key Features](#key-features)
+- [Tech Stack](#tech-stack)
+- [Getting Started](#getting-started)
+- [Project Structure](#project-structure)
+- [Core Modules](#core-modules)
+- [API Documentation](#api-documentation)
+- [Environment Setup](#environment-setup)
+- [Development](#development)
+- [Deployment](#deployment)
+- [Contributing](#contributing)
+- [License](#license)
 
-#### **V0 Component Generator**
-- AI-powered React/Tailwind component generation
-- Live preview using Sandpack
-- Code viewer with syntax highlighting
-- "Insert into Project" functionality
-- Component metadata storage
+---
 
-#### **Bolt Deployment**
-- Real Vercel API integration
-- Staging and production deployments
-- Deployment status tracking and polling
-- Environment URL management
-- Recent deployments history
+## 🎯 Overview
 
-### 🎯 Core Capabilities
+DevFlowHub is a comprehensive, production-ready platform that integrates four powerful development tools into a single unified workspace:
 
-- **Active Tool Sticky State**: Remembers your last used tool per project
-- **Real-time File Operations**: Create, read, update, and delete project files
-- **AI Integration**: OpenAI-powered code generation and suggestions
-- **Usage Analytics**: Track tool usage, actions, and duration
-- **Error Handling**: Comprehensive error boundaries and toast notifications
-- **Responsive Design**: Modern UI with TailwindCSS and Radix UI components
+1. **DevFlowHub Editor** - Full-featured code editor with AI assistance (Monaco-based)
+2. **DevFlowHub Sandbox** - In-browser code execution and testing environment
+3. **DevFlowHub UI Studio** - AI-powered UI component generation
+4. **DevFlowHub Deployer** - Multi-provider deployment system
+
+Built with modern web technologies and AI-first architecture, DevFlowHub provides developers with everything they need to code, test, and deploy applications without leaving the browser.
+
+---
+
+## ✨ Key Features
+
+### 🤖 AI-Powered Development
+- **Code Generation**: Generate code from natural language prompts
+- **Intelligent Autocomplete**: AI-powered code suggestions and completions
+- **Code Analysis**: Automated refactoring and optimization suggestions
+- **Chat Assistant**: Conversational AI for development questions
+- **RAG Integration**: Codebase-aware AI responses using retrieval-augmented generation
+- **Test Generation**: Automated test case generation
+- **Terminal Suggestions**: AI-powered terminal command recommendations
+
+### 📝 Unified Editor Experience
+- Monaco Editor (VS Code in browser) with full TypeScript support
+- Real file system integration
+- Integrated terminal with command execution
+- Git operations (init, commit, push, branches, PRs)
+- Multi-file editing and operations
+- Live preview and hot reload
+- Autosave functionality
+- Code diff visualization
+
+### 🧪 Sandbox Environment
+- Real-time code execution
+- Live preview environment
+- Package management (npm, yarn, pnpm)
+- Terminal access
+- Snapshot support for state management
+- Run management and process control
+- Cost tracking and usage monitoring
+
+### 🎨 UI Studio
+- AI-powered component generation from prompts
+- Component library and marketplace
+- Live preview with Sandpack
+- Design system integration
+- Figma import capabilities
+- Component customization and editing
+
+### 🚀 Deployment System
+- Multi-provider support (Vercel, Netlify, AWS, GCP)
+- Preview environments per branch
+- Deployment history and rollback
+- Environment variable management
+- Build logs and status tracking
+- Cost estimation and quota management
+
+### 💳 Payment & Billing
+- Stripe integration (US/International)
+- Razorpay integration (India)
+- Subscription management
+- Usage-based billing
+- Invoice generation
+- Multiple pricing tiers
+
+### 📊 Analytics & Monitoring
+- User action tracking
+- Tool usage analytics
+- Conversion funnels
+- System health metrics
+- Cost tracking
+- Performance monitoring
+
+### 🔐 Security & Authentication
+- NextAuth.js with JWT strategy
+- Email/password authentication
+- Google OAuth integration
+- Session management
+- Route protection
+- CSRF protection
+- Secure password hashing
+
+---
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: Next.js 14 (App Router), React 18, TypeScript
-- **Styling**: TailwindCSS, Radix UI components
-- **Database**: PostgreSQL with Prisma ORM
-- **Authentication**: NextAuth.js
-- **AI Integration**: OpenAI API
-- **Deployment**: Vercel API integration
-- **Terminal**: Real command execution with workspace management
-- **File System**: Database-backed file storage with real workspace sync
+### Frontend
+- **Next.js 14** (App Router) - React framework with Server Components
+- **React 18.3** - UI library with concurrent features
+- **TypeScript 5.8** - Type-safe development
+- **TailwindCSS 3.4** - Utility-first CSS framework
+- **Radix UI** - Accessible component primitives
+- **Framer Motion 12** - Animation library
+- **Zustand 5** - Lightweight state management
+- **SWR 2.3** - Data fetching and caching
 
-## 📋 Prerequisites
+### Backend
+- **Next.js API Routes** - 157+ RESTful endpoints
+- **Prisma 6.10** - Next-generation ORM
+- **PostgreSQL** - Primary database
+- **NextAuth.js 4.24** - Authentication framework
 
-- Node.js 18+ 
+### AI & Services
+- **OpenAI API** (GPT-4, GPT-4o-mini) - Code generation and AI assistance
+- **RAG** (Retrieval-Augmented Generation) - Codebase-aware responses
+- **Vercel API** - Deployment integration
+- **Stripe + Razorpay** - Payment processing
+
+### Development Tools
+- **Monaco Editor** - VS Code editor in browser
+- **Sandpack** - In-browser code execution
+- **XTerm.js** - Terminal emulator
+- **jsdiff** - Code diff visualization
+
+### Testing & Quality
+- **Jest** - Unit testing
+- **Testing Library** - React component testing
+- **Playwright** - E2E testing
+- **ESLint** - Code linting
+- **TypeScript** - Type checking
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js 18+ and npm/yarn/pnpm
 - PostgreSQL database
-- npm or yarn package manager
+- OpenAI API key (for AI features)
+- Git
 
-## 🚀 Quick Start
+### Installation
 
-### 1. Clone and Install
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/devflowhub06/devflowhub.git
+   cd devflowhub
+   ```
 
-```bash
-git clone <repository-url>
-cd devFlow
-npm install
+2. **Install dependencies**
+   ```bash
+   npm install
+   # or
+   yarn install
+   # or
+   pnpm install
+   ```
+
+3. **Set up environment variables**
+   ```bash
+   cp .env.example .env
+   ```
+   
+   Edit `.env` and add your configuration:
+   ```env
+   # Database
+   DATABASE_URL="postgresql://user:password@localhost:5432/devflowhub"
+   
+   # Authentication
+   NEXTAUTH_SECRET="your-secret-key"
+   NEXTAUTH_URL="http://localhost:3000"
+   
+   # OpenAI
+   OPENAI_API_KEY="sk-..."
+   
+   # Optional: OAuth
+   GOOGLE_CLIENT_ID="..."
+   GOOGLE_CLIENT_SECRET="..."
+   
+   # Optional: Payments
+   STRIPE_SECRET_KEY="sk_..."
+   RAZORPAY_KEY_ID="..."
+   RAZORPAY_KEY_SECRET="..."
+   
+   # Optional: Deployment
+   VERCEL_TOKEN="..."
+   VERCEL_ORG_ID="..."
+   ```
+
+4. **Set up the database**
+   ```bash
+   # Generate Prisma client
+   npx prisma generate
+   
+   # Run migrations
+   npx prisma migrate dev
+   
+   # (Optional) Seed database
+   npx prisma db seed
+   ```
+
+5. **Start the development server**
+   ```bash
+   npm run dev
+   ```
+
+6. **Open your browser**
+   Navigate to [http://localhost:3000](http://localhost:3000)
+
+---
+
+## 📁 Project Structure
+
+```
+devFlow/
+├── src/
+│   ├── app/                    # Next.js App Router
+│   │   ├── api/               # API routes (157+ endpoints)
+│   │   │   ├── auth/         # Authentication endpoints
+│   │   │   ├── projects/     # Project management
+│   │   │   ├── editor/       # Editor operations
+│   │   │   ├── sandbox/      # Sandbox operations
+│   │   │   ├── ui-studio/    # UI Studio operations
+│   │   │   ├── deployer/     # Deployment operations
+│   │   │   ├── ai/           # AI services
+│   │   │   ├── billing/      # Payment processing
+│   │   │   └── analytics/    # Analytics tracking
+│   │   ├── dashboard/         # Dashboard pages
+│   │   │   └── projects/     # Project workspace
+│   │   └── (auth)/           # Auth pages
+│   ├── components/            # React components (200+ files)
+│   │   ├── ui/               # Base UI components
+│   │   ├── editor/           # Editor components
+│   │   ├── sandbox/          # Sandbox components
+│   │   ├── ui-studio/        # UI Studio components
+│   │   ├── deployer/         # Deployer components
+│   │   └── dashboard/        # Dashboard components
+│   ├── lib/                   # Utility libraries
+│   │   ├── prisma.ts         # Database client
+│   │   ├── authOptions.ts    # Auth configuration
+│   │   ├── ai/               # AI services
+│   │   ├── deployer/         # Deployment services
+│   │   └── services/         # Integration services
+│   └── types/                # TypeScript type definitions
+├── prisma/
+│   ├── schema.prisma         # Database schema
+│   └── migrations/           # Database migrations
+├── public/                    # Static assets
+├── scripts/                   # Utility scripts
+└── workspace-service/         # Standalone workspace service
 ```
 
-### 2. Environment Setup
+---
 
-Create a `.env.local` file with the following variables:
+## 🎯 Core Modules
+
+### 1. DevFlowHub Editor
+
+Full-featured code editor with AI assistance, built on Monaco Editor.
+
+**Key Features:**
+- Monaco editor with TypeScript support
+- Real file system integration
+- AI-powered code suggestions
+- Git integration
+- Integrated terminal
+- Multi-file operations
+- Code analysis and refactoring
+
+**API Endpoints:**
+- `POST /api/editor/ai/chat-stream` - Streaming AI chat
+- `POST /api/editor/ai/complete` - Code completion
+- `POST /api/editor/ai/edit` - AI code editing
+- `POST /api/editor/ai/multi-file` - Multi-file operations
+- `POST /api/editor/ai/tests` - Test generation
+
+### 2. DevFlowHub Sandbox
+
+In-browser code execution and testing environment.
+
+**Key Features:**
+- Real-time code execution
+- Live preview
+- Package management
+- Terminal access
+- Snapshot support
+- Run management
+
+**API Endpoints:**
+- `POST /api/sandbox/[projectId]/run` - Execute code
+- `GET /api/sandbox/[projectId]/run/[runId]/status` - Check status
+- `GET /api/sandbox/[projectId]/run/[runId]/logs` - Get logs
+
+### 3. DevFlowHub UI Studio
+
+AI-powered UI component generation.
+
+**Key Features:**
+- Component generation from prompts
+- Component library
+- Live preview
+- Figma import
+- Design system integration
+
+**API Endpoints:**
+- `POST /api/ui-studio/generate` - Generate component
+- `GET /api/ui-studio/components` - List components
+- `POST /api/ui-studio/insert` - Insert component
+
+### 4. DevFlowHub Deployer
+
+Multi-provider deployment system.
+
+**Key Features:**
+- Multi-provider support (Vercel, Netlify, AWS, GCP)
+- Preview environments
+- Deployment history
+- Rollback capabilities
+- Environment management
+
+**API Endpoints:**
+- `POST /api/deployer/[projectId]/deploy` - Deploy project
+- `GET /api/deployer/[projectId]/deploy/[deployId]/status` - Check status
+- `POST /api/deployer/[projectId]/deploy/[deployId]/rollback` - Rollback
+
+---
+
+## 📚 API Documentation
+
+The API consists of 157+ RESTful endpoints organized by feature:
+
+- **Authentication**: `/api/auth/*`
+- **Projects**: `/api/projects/*`
+- **Editor**: `/api/editor/*`
+- **Sandbox**: `/api/sandbox/*`
+- **UI Studio**: `/api/ui-studio/*`
+- **Deployer**: `/api/deployer/*`
+- **AI Services**: `/api/ai/*`
+- **Billing**: `/api/billing/*`
+- **Analytics**: `/api/analytics/*`
+
+All endpoints require authentication (except public routes) and return JSON responses.
+
+---
+
+## ⚙️ Environment Setup
+
+### Required Environment Variables
 
 ```env
 # Database
-DATABASE_URL="postgresql://username:password@localhost:5432/devflowhub"
+DATABASE_URL="postgresql://user:password@localhost:5432/devflowhub"
 
-# NextAuth
-NEXTAUTH_SECRET="your-secret-key"
+# Authentication
+NEXTAUTH_SECRET="generate-with-openssl-rand-base64-32"
 NEXTAUTH_URL="http://localhost:3000"
 
-# OpenAI (for AI suggestions)
-OPENAI_API_KEY="your-openai-api-key"
-
-# Vercel (for deployments)
-VERCEL_TOKEN="your-vercel-token"
-VERCEL_ORG_ID="your-vercel-org-id"
-VERCEL_PROJECT_ID="your-vercel-project-id"
-
-# Replit (optional, for real API integration)
-REPLIT_TOKEN="your-replit-token"
+# OpenAI (Required for AI features)
+OPENAI_API_KEY="sk-..."
 ```
 
-### 3. Database Setup
+### Optional Environment Variables
+
+```env
+# OAuth
+GOOGLE_CLIENT_ID="..."
+GOOGLE_CLIENT_SECRET="..."
+
+# Payments
+STRIPE_SECRET_KEY="sk_..."
+STRIPE_PUBLISHABLE_KEY="pk_..."
+RAZORPAY_KEY_ID="..."
+RAZORPAY_KEY_SECRET="..."
+
+# Deployment
+VERCEL_TOKEN="..."
+VERCEL_ORG_ID="..."
+
+# Analytics
+NEXT_PUBLIC_POSTHOG_KEY="..."
+NEXT_PUBLIC_POSTHOG_HOST="..."
+```
+
+---
+
+## 💻 Development
+
+### Available Scripts
 
 ```bash
-# Generate Prisma client
-npx prisma generate
+# Development
+npm run dev          # Start dev server on port 3000
 
-# Run database migrations
-npx prisma migrate dev
+# Production
+npm run build        # Build for production
+npm start            # Start production server
 
-# (Optional) Seed database
-npx prisma db seed
+# Database
+npx prisma generate  # Generate Prisma client
+npx prisma migrate   # Run migrations
+npx prisma studio    # Open Prisma Studio
+npx prisma db seed   # Seed database
+
+# Testing
+npm test             # Run Jest tests
+npm run test:watch   # Watch mode
+npm run test:coverage # Coverage report
+
+# Type Checking
+npm run type-check   # TypeScript validation
+
+# Linting
+npm run lint         # ESLint check
+npm run lint:fix     # Auto-fix issues
 ```
 
-### 4. Start Development Server
+### Code Style
 
-```bash
-npm run dev
-```
+- TypeScript for type safety
+- ESLint for code quality
+- Prettier for formatting (if configured)
+- Component-based architecture
+- Server Components by default
+- Client Components when needed
 
-Open [http://localhost:3000](http://localhost:3000) to see the application.
-
-## 🔧 API Endpoints
-
-### File Operations
-- `GET /api/files/list` - List project files
-- `GET /api/files/read` - Read file content
-- `POST /api/files/save` - Save file content
-- `POST /api/files/patch` - Apply AI-generated patches
-
-### Terminal
-- `POST /api/terminal/start` - Start terminal session
-- `POST /api/terminal/input` - Execute terminal command
-
-### Git Operations
-- `POST /api/git/init` - Initialize Git repository
-- `POST /api/git/commit` - Commit changes
-- `POST /api/git/push` - Push to remote
-
-### AI Integration
-- `POST /api/ai/suggest` - Generate AI code suggestions
-
-### Tool Integrations
-- `POST /api/replit/create` - Create Replit project
-- `GET /api/replit/status` - Get Replit status
-- `POST /api/bolt/deploy` - Deploy to Vercel
-- `GET /api/bolt/status` - Get deployment status
-- `POST /api/v0/generate` - Generate V0 component
-
-### Usage Tracking
-- `POST /api/usage` - Log usage events
-
-## 🏗️ Project Structure
-
-```
-src/
-├── app/                    # Next.js App Router
-│   ├── api/               # API routes
-│   ├── dashboard/         # Dashboard pages
-│   └── layout.tsx         # Root layout
-├── components/            # Reusable components
-│   └── ui/               # UI components
-├── lib/                   # Utility libraries
-│   ├── prisma.ts         # Database client
-│   └── authOptions.ts    # Auth configuration
-└── prisma/               # Database schema and migrations
-```
-
-## 🔐 Authentication
-
-DevFlowHub uses NextAuth.js for authentication. Users can:
-- Sign up with email/password
-- Sign in with existing credentials
-- Access project-specific workspaces
-- Manage their development projects
-
-## 📊 Usage Analytics
-
-The platform tracks comprehensive usage metrics:
-- Tool usage patterns
-- Action frequency and duration
-- Project-specific analytics
-- Development workflow insights
+---
 
 ## 🚀 Deployment
 
 ### Vercel (Recommended)
 
-```bash
-# Install Vercel CLI
-npm i -g vercel
+1. **Connect your repository** to Vercel
+2. **Configure environment variables** in Vercel dashboard
+3. **Deploy** - Vercel will automatically deploy on push
 
-# Link project
-vercel link
-
-# Deploy
-vercel --prod
-```
-
-### Environment Variables for Production
-
-Ensure all environment variables are configured in your production environment:
-- Database connection string
-- Authentication secrets
-- API keys for integrations
-- Deployment tokens
-
-## 🧪 Testing
+### Manual Deployment
 
 ```bash
-# Run tests
-npm test
+# Build the application
+npm run build
 
-# Run Playwright tests
-npm run test:e2e
-
-# Run type checking
-npm run type-check
+# Start production server
+npm start
 ```
 
-## 🤝 Contributing
+### Database Migration
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-3. Add tests if applicable
-4. Submit a pull request
-
-## 📝 License
-
-This project is licensed under the MIT License.
-
-## 🆘 Support
-
-For support and questions:
-- Create an issue in the repository
-- Check the documentation
-- Review the API endpoints
-
-## 🔄 Roadmap
-
-- [ ] Enhanced AI code generation
-- [ ] Real-time collaboration features
-- [ ] Additional deployment providers
-- [ ] Advanced terminal features
-- [ ] Mobile app support
-- [ ] Plugin system for custom integrations
+```bash
+# Run migrations in production
+npx prisma migrate deploy
+```
 
 ---
 
-Built with ❤️ by the DevFlowHub team
+## 🤝 Contributing
+
+We welcome contributions! Please follow these steps:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+### Development Guidelines
+
+- Follow TypeScript best practices
+- Write tests for new features
+- Update documentation as needed
+- Follow the existing code style
+- Ensure all tests pass before submitting
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🔗 Links
+
+- **Repository**: [https://github.com/devflowhub06/devflowhub](https://github.com/devflowhub06/devflowhub)
+- **Documentation**: See `PRODUCT_ANALYSIS.md` and `TECH_STACK_ARCHITECTURE.md`
+- **Issues**: [GitHub Issues](https://github.com/devflowhub06/devflowhub/issues)
+
+---
+
+## 🙏 Acknowledgments
+
+- Built with [Next.js](https://nextjs.org/)
+- AI powered by [OpenAI](https://openai.com/)
+- UI components from [Radix UI](https://www.radix-ui.com/)
+- Icons and assets from various open-source projects
+
+---
+
+## 📞 Support
+
+For support, email support@devflowhub.com or open an issue on GitHub.
+
+---
+
+**Made with ❤️ by the DevFlowHub team**
